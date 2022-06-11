@@ -15,8 +15,9 @@ import Divider from '@mui/material/Divider';
 
 function App() {
   const [activities, SetActivities] = useState([]);
+  const URL = 'http://localhost:5000/api/activities';
   useEffect(() => {
-    axios.get('http://localhost:5000/api/activities').then(response => {
+    axios.get(URL).then(response => {
       console.log(response);
       SetActivities(response.data);
     })
@@ -45,7 +46,7 @@ function App() {
 
       <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
         <Divider />
-        <nav aria-label="main mailbox folders">
+        <nav aria-label="main">
           <List>
             {activities.map((activity: any) => (
               <ListItem key={activity.id} disablePadding>
