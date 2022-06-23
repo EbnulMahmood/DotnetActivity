@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent, useState } from "react";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -9,14 +9,25 @@ import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
 import { Activity } from "../../../app/models/activity";
 import { ListItemButton } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface Props {
     activities: Activity[];
     selectActivity: (id: string) => void;
     deleteActivity: (id: string) => void;
+    submitting: boolean;
 }
 
-export default function ActivityList({activities, selectActivity, deleteActivity}: Props) {
+export default function ActivityList({activities, selectActivity,
+    deleteActivity, submitting}: Props) {
+    
+    const [target, setTarget] = useState('');
+
+    function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
+        setTarget(e.currentTarget.id);
+        deleteActivity(id);
+    }
+
     return (
         <Box
         display="flex" 
@@ -49,18 +60,19 @@ export default function ActivityList({activities, selectActivity, deleteActivity
                         </>
                     }
                     />
+                    <LoadingButton 
+                        onClick={(e) => handleActivityDelete(e, activity.id)}
+                        id={activity.id}
+                        loading={submitting && target === activity.id}
+                        color="warning"
+                    >
+                        Delete
+                    </LoadingButton>
                     <ListItemButton onClick={() => selectActivity(activity.id)}>
                         <Typography 
                             color="blue"
                         >
                             View
-                        </Typography>
-                    </ListItemButton>
-                    <ListItemButton onClick={() => deleteActivity(activity.id)}>
-                        <Typography 
-                            color="red"
-                        >
-                            Delete
                         </Typography>
                     </ListItemButton>
                 </ListItem>
