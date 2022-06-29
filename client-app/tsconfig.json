@@ -18,9 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve"
   },
   "include": [
-    "src"
-, "App/layout/App.tsx"  ]
+    "src",
+    "App/layout/App.tsx"
+  ]
 }

@@ -11,16 +11,15 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-
-interface Props {
-    openForm: () => void;
-}
+import { useStore } from '../stores/store';
 
 const pages = ['Activities', 'Create Activity', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
-export default function NavBar({openForm}: Props) {
+export default function NavBar() {
+
+    const {activityStore} = useStore();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -125,7 +124,7 @@ export default function NavBar({openForm}: Props) {
                     </Button>
                     <Button
                         key="Create Activity"
-                        onClick={openForm}
+                        onClick={() => activityStore.openForm()}
                         sx={{ my: 2, color: 'white', display: 'block' }}
                     >
                         Create Activity

@@ -7,22 +7,18 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
-import { Activity } from "../../../app/models/activity";
 import { ListItemButton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    activities: Activity[];
-    selectActivity: (id: string) => void;
-    deleteActivity: (id: string) => void;
-    submitting: boolean;
-}
 
-export default function ActivityList({activities, selectActivity,
-    deleteActivity, submitting}: Props) {
+export default observer(function ActivityList() {
     
+    const {activityStore} = useStore();
+    const {deleteActivity, activitiesByDate, loading} = activityStore;
     const [target, setTarget] = useState('');
-
+    
     function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(e.currentTarget.id);
         deleteActivity(id);
@@ -35,7 +31,7 @@ export default function ActivityList({activities, selectActivity,
         justifyContent="center"
         >
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                {activities.map(activity => (
+                {activitiesByDate.map(activity => (
                 <ListItem key={activity.id}>
                     <ListItemAvatar>
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
@@ -63,12 +59,12 @@ export default function ActivityList({activities, selectActivity,
                     <LoadingButton 
                         onClick={(e) => handleActivityDelete(e, activity.id)}
                         id={activity.id}
-                        loading={submitting && target === activity.id}
+                        loading={loading && target === activity.id}
                         color="warning"
                     >
                         Delete
                     </LoadingButton>
-                    <ListItemButton onClick={() => selectActivity(activity.id)}>
+                    <ListItemButton onClick={() => activityStore.selectActivity(activity.id)}>
                         <Typography 
                             color="blue"
                         >
@@ -81,4 +77,4 @@ export default function ActivityList({activities, selectActivity,
             </List>
         </Box>
     )
-}
+})

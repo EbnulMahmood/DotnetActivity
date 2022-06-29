@@ -3,18 +3,14 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { Activity } from "../../../app/models/activity";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    activity: Activity | undefined;
-    closeForm: () => void;
-    createOrEdit: (activity: Activity) => void;
-    submitting: boolean;
-}
+export default observer(function ActivityForm() {
 
-export default function ActivityForm({activity: selectedActivity,
-    closeForm, createOrEdit, submitting}: Props) {
+    const {activityStore} = useStore();
+    const {selectedActivity, closeForm, createActivity, updateActivity, loading} = activityStore;
     
     const initialState = selectedActivity ?? {
         id: '',
@@ -29,7 +25,7 @@ export default function ActivityForm({activity: selectedActivity,
     const [activity, setActivity] = useState(initialState);
 
     function handleSubmit() {
-        createOrEdit(activity);
+        activity.id ? updateActivity(activity) : createActivity(activity);
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
@@ -59,9 +55,9 @@ export default function ActivityForm({activity: selectedActivity,
                 multiline
             />
             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                <LoadingButton loading={submitting} type="submit" color="success">Submit</LoadingButton>
+                <LoadingButton loading={loading} type="submit" color="success">Submit</LoadingButton>
                 <Button onClick={closeForm} color="warning" >Cancel</Button>
             </ButtonGroup>
         </Box>
     )
-}
+})
