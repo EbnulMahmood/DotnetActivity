@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useStore } from '../stores/store';
+import { Link, NavLink } from 'react-router-dom';
 
 const pages = ['Activities', 'Create Activity', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -89,18 +90,23 @@ export default function NavBar() {
                         display: { xs: 'block', md: 'none' },
                     }}
                     >
-                    {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
+                    <Link to="/activities">
+                        <MenuItem key='Activities'>
+                            <Typography textAlign="center">Activities</Typography>
                         </MenuItem>
-                    ))}
+                    </Link>
+                    <Link to="/createActivity">
+                        <MenuItem key='Create Activity'>
+                            <Typography textAlign="center">Create Activity</Typography>
+                        </MenuItem>
+                    </Link>
                     </Menu>
                 </Box>
                 <Typography
                     variant="h5"
                     noWrap
                     component="a"
-                    href=""
+                    href="/"
                     sx={{
                     mr: 2,
                     display: { xs: 'flex', md: 'none' },
@@ -115,20 +121,22 @@ export default function NavBar() {
                     <Avatar alt="LOGO" src="/assets/logo.png" />
                 </Typography>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                    <Button
-                        key="Activities"
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                    >
-                        Activities
-                    </Button>
-                    <Button
-                        key="Create Activity"
-                        onClick={() => activityStore.openForm()}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                    >
-                        Create Activity
-                    </Button>
+                    <Link to="/activities">
+                        <Button
+                            type='button'
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Activities
+                        </Button>
+                    </Link>
+                    <Link to="/createActivity">
+                        <Button
+                            type='button'
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Create Activity
+                        </Button>
+                    </Link>
                 </Box>
 
                 <Box sx={{ flexGrow: 0 }}>
@@ -155,7 +163,7 @@ export default function NavBar() {
                     >
                     {settings.map((setting) => (
                         <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
+                            <Typography textAlign="center">{setting}</Typography>
                         </MenuItem>
                     ))}
                     </Menu>

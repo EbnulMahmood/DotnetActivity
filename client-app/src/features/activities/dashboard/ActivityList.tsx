@@ -11,6 +11,7 @@ import { ListItemButton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { Link } from "react-router-dom";
 
 
 export default observer(function ActivityList() {
@@ -26,9 +27,9 @@ export default observer(function ActivityList() {
 
     return (
         <Box
-        display="flex" 
-        alignItems="center"
-        justifyContent="center"
+            display="flex" 
+            alignItems="center"
+            justifyContent="center"
         >
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                 {activitiesByDate.map(activity => (
@@ -64,13 +65,16 @@ export default observer(function ActivityList() {
                     >
                         Delete
                     </LoadingButton>
-                    <ListItemButton onClick={() => activityStore.selectActivity(activity.id)}>
-                        <Typography 
-                            color="blue"
-                        >
-                            View
-                        </Typography>
-                    </ListItemButton>
+                    <Link to={`/activities/${activity.id}`}>
+                        <ListItemButton>
+                            <Typography 
+                                color="blue"
+                            >
+                                View
+                            </Typography>
+                        </ListItemButton>
+
+                    </Link>
                 </ListItem>
                 ))}
                 <Divider variant="inset" component="li" />
