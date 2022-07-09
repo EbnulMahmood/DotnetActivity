@@ -20,22 +20,24 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <main>
-            <Routes>
-                <Route path='/' element={<HomePage />} />
-                <Route path='*' element={
-                  <>
-                    <NavBar />
-                    <Container style={{marginTop: '7em'}}>
-                      <Routes>
-                        <Route path='/activities' element={<ActivityDashboard />} />
-                        <Route path='/activities/:id' element={<ActivityDetails />} />
-                        <Route path='/createActivity' element={<ActivityForm />} />
-                        <Route path='/manage/:id' element={<ActivityForm />} />
-                      </Routes>
-                    </Container>
-                  </>
-                } />
-            </Routes>
+          <Routes>
+              <Route path='/' element={<HomePage />} />
+              <Route path='*' element={
+                <>
+                  <NavBar />
+                  <Container 
+                    style={{marginTop: '7em'}}
+                  >
+                    <Routes>
+                      <Route path='/activities' element={<ActivityDashboard />} />
+                      <Route path='/activities/:id' element={<ActivityDetails />} />
+                      <Route path='/createActivity' element={<ActivityForm />} />
+                      <Route path='/manage/:id' element={<ActivityForm />} />
+                    </Routes>
+                  </Container>
+                </>
+              } />
+          </Routes>
       </main>
     </ThemeProvider>
   );

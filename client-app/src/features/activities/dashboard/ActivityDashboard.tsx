@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/loadingComponent';
+import ActivityFilters from './ActivityFilters';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -29,7 +30,7 @@ export default observer(function ActivityDashboard() {
     if (activityStore.loadingInitial) return <LoadingComponent />
     
     return (
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         <Grid item xs={6} md={7}>
           <Item>
             <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -42,7 +43,7 @@ export default observer(function ActivityDashboard() {
         </Grid>
         <Grid item xs={6} md={5}>
           <Item>
-            <h2>Activity Filters</h2>
+            <ActivityFilters />
           </Item>
         </Grid>
       </Grid>

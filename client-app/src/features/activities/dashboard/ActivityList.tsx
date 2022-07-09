@@ -1,84 +1,36 @@
-import React, { SyntheticEvent, useState } from "react";
+import React from "react";
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
 import Box from "@mui/material/Box";
-import { ListItemButton } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
+import Alert from "@mui/material/Alert";
+import Divider from '@mui/material/Divider';
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+import ActivityListItem from "./ActivityListItem";
 
 
 export default observer(function ActivityList() {
     
     const {activityStore} = useStore();
-    const {deleteActivity, activitiesByDate, loading} = activityStore;
-    const [target, setTarget] = useState('');
-    
-    function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
-        setTarget(e.currentTarget.id);
-        deleteActivity(id);
-    }
+    const {groupedActivities} = activityStore;
 
     return (
-        <Box
-            display="flex" 
-            alignItems="center"
-            justifyContent="center"
-        >
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                {activitiesByDate.map(activity => (
-                <ListItem key={activity.id}>
-                    <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    </ListItemAvatar>
-                    <ListItemText
-                    primary={
-                        <Typography style={{ color: "white" }}>
-                            {activity.title}
-                        </Typography>
-                    }
-                    secondary={
-                        <>
-                            <Typography
-                                sx={{ display: 'inline' }}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                            >
-                                {activity.category}
-                            </Typography>
-                            {` — ${activity.description}`}
-                        </>
-                    }
-                    />
-                    <LoadingButton 
-                        onClick={(e) => handleActivityDelete(e, activity.id)}
-                        id={activity.id}
-                        loading={loading && target === activity.id}
-                        color="warning"
-                    >
-                        Delete
-                    </LoadingButton>
-                    <Link to={`/activities/${activity.id}`}>
-                        <ListItemButton>
-                            <Typography 
-                                color="blue"
-                            >
-                                View
-                            </Typography>
-                        </ListItemButton>
-
-                    </Link>
-                </ListItem>
-                ))}
-                <Divider variant="inset" component="li" />
-            </List>
-        </Box>
+        <>
+            {groupedActivities.map(([group, activities]) => (
+                <Box
+                    key={group}
+                    display="flex" 
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    <Alert severity="success">{group}</Alert>
+                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        {activities.map(activity => (
+                            <ActivityListItem key={activity.id} activity={activity} />
+                            ))}
+                        <Divider variant="inset" component="li" />
+                    </List>
+                </Box>
+            ))}
+        </>
     )
 })
