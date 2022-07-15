@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useStore } from '../stores/store';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const pages = ['Activities', 'Create Activity', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -93,6 +93,11 @@ export default function NavBar() {
                     <Link to="/activities">
                         <MenuItem key='Activities'>
                             <Typography textAlign="center">Activities</Typography>
+                        </MenuItem>
+                    </Link>
+                    <Link to="/errors">
+                        <MenuItem key='Errors'>
+                            <Typography textAlign="center">Errors</Typography>
                         </MenuItem>
                     </Link>
                     <Link to="/createActivity">
