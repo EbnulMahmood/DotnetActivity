@@ -1,8 +1,6 @@
 import React from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
@@ -23,7 +21,7 @@ export default function ValidationErrors({errors}: Props) {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={1}>
-                <Grid item xs={8}>
+                <Grid item>
                     {errors && (
                         <Item>
                             {errors.map((err: any, key: any) => (
@@ -33,13 +31,6 @@ export default function ValidationErrors({errors}: Props) {
                             ))}
                         </Item>
                     )}
-                </Grid>
-                <Grid item xs={4}>
-                    <Item>
-                        <Link to='/activities'>
-                            <Button>Return to activities page</Button>
-                        </Link>
-                    </Item>
                 </Grid>
             </Grid>
         </Box>

@@ -7,6 +7,7 @@ interface Props {
     placeholder: string;
     name: string;
     label?: string;
+    type?: string;
 }
 
 export default function MyTextInput(props: Props) {
@@ -17,9 +18,7 @@ export default function MyTextInput(props: Props) {
         <Field
             error={meta.touched && !!meta.error}
             component={TextField}
-            id="outlined-basic"
             variant="outlined"
-            label={props.label}
             {...field} {...props}
         >
             {meta.touched && meta.error ? (

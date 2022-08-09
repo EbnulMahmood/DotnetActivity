@@ -21,11 +21,8 @@ export default function MyDateInput(props: Props) {
             <Field
                 error={meta.touched && !!meta.error}
                 component={DateTimePicker}
-                id="outlined-basic"
                 variant="outlined"
-                name={props.name}
-                label={props.label}
-                placeholder={props.label}
+                {...field} {...props}
                 value={(field.value && new Date(field.value)) || null}
                 onChange={(value: any) => helpers.setValue(value)}
                 renderInput={(params: JSX.IntrinsicAttributes & TextFieldProps) =>

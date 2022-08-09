@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavBar from './NavBar';
 import Container from '@mui/material/Container';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -12,6 +12,10 @@ import { ToastContainer } from 'react-toastify';
 import NotFound from '../../features/errors/NotFound';
 import TestErrors from '../../features/errors/TestError';
 import ServerError from '../../features/errors/ServerError';
+import LoginForm from '../../features/users/LoginForm';
+import { useStore } from '../stores/store';
+import LoadingComponent from './loadingComponent';
+import ModalContainer from '../common/modal/ModalContainer';
 
 const darkTheme = createTheme({
   palette: {
@@ -20,6 +24,18 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const {commonStore: {token, setAppLoaded, appLoaded},
+         userStore: {getUser}} = useStore();
+
+  useEffect(() => {
+    if (token) {
+      getUser().finally(() => setAppLoaded());
+    } else {
+      setAppLoaded();
+    }
+  }, [token, getUser, setAppLoaded])
+
+  if (!appLoaded) return <LoadingComponent />
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -35,6 +51,7 @@ function App() {
           draggable
           pauseOnHover
         />
+        <ModalContainer />
           <Routes>
               <Route path='/' element={<HomePage />} />
               <Route path='*' element={
@@ -48,6 +65,7 @@ function App() {
                       <Route path='/activities/:id' element={<ActivityDetails />} />
                       <Route path='/createActivity' element={<ActivityForm />} />
                       <Route path='/manage/:id' element={<ActivityForm />} />
+                      <Route path='/login' element={<LoginForm />} />
                       <Route path='/errors' element={<TestErrors />} />
                       <Route path='/server-error' element={<ServerError />} />
                       <Route path='*' element={<NotFound />} />

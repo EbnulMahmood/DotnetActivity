@@ -20,11 +20,9 @@ export default function MySelectInput(props: Props) {
         <Field
             component={Select}
             formHelperText={{ children: 'Select category' }}
-            id="select"
-            name={props.name}
             labelId="select-simple"
-            label={props.placeholder}
             variant="outlined"
+            {...field} {...props}
             validate={meta.touched && meta.error ? (
                 <Label color="warning">{meta.error}</Label>
             ) : null}

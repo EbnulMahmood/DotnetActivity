@@ -19,11 +19,7 @@ export default function MyTextArea(props: Props) {
         <Field
             error={meta.touched && !!meta.error}
             component={TextField}
-            multiline={props.multiline}
-            rows={props.rows}
-            id="outlined-textarea"
             variant="outlined"
-            label={props.label}
             {...field} {...props}
         >
             {meta.touched && meta.error ? (

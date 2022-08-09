@@ -13,14 +13,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { useStore } from '../stores/store';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
-const pages = ['Activities', 'Create Activity', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
-export default function NavBar() {
+export default observer(function NavBar() {
 
-    const {activityStore} = useStore();
+    const {userStore: {user, logout}} = useStore();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -147,7 +147,9 @@ export default function NavBar() {
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        <Avatar
+                            alt={user?.username}
+                            src={user?.image || '/assets/user.png'} />
                     </IconButton>
                     </Tooltip>
                     <Menu
@@ -166,15 +168,18 @@ export default function NavBar() {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                     >
-                    {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">{setting}</Typography>
+                    <Link to={`/profile/${user?.username}`}>
+                        <MenuItem key='profile'>
+                            <Typography textAlign="center">{user?.displayName}</Typography>
                         </MenuItem>
-                    ))}
+                    </Link>
+                    <MenuItem key='logout' onClick={logout}>
+                        <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
                     </Menu>
                 </Box>
                 </Toolbar>
             </Container>
         </AppBar>
     );
-}
+})

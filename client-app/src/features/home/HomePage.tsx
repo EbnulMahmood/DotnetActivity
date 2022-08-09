@@ -6,6 +6,10 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import { observer } from "mobx-react-lite";
+import { useStore } from "../../app/stores/store";
+import LoginForm from "../users/LoginForm";
+import RegisterForm from "../users/RegisterForm";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,7 +19,8 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-export default function HomePage() {
+export default observer(function HomePage() {
+    const {userStore: {isLoggedIn}, modalStore: {openModal}} = useStore();
     return (
         <Grid
             container
@@ -44,27 +49,54 @@ export default function HomePage() {
                         </Item>
                     </Grid>
                 </Grid>
-                <Item>
-                    <Typography 
-                        variant="h5"
-                        component="div"
-                        gutterBottom
-                    >
-                        Welcome to .NET activities
-                    </Typography>
-                </Item>
-                <Item>
-                    <Typography 
-                        variant="h6"
-                        component="div"
-                        gutterBottom
-                    >
-                        Go to <Link to='/activities'>
-                            <Button variant="contained">Activities</Button>    
-                        </Link>
-                    </Typography>
-                </Item>
+                {isLoggedIn ? (
+                    <>
+                        <Item>
+                            <Typography 
+                                variant="h5"
+                                component="div"
+                                gutterBottom
+                            >
+                                Welcome to .NET activities
+                            </Typography>
+                        </Item>
+                        <Item>
+                            <Typography 
+                                variant="h6"
+                                component="div"
+                                gutterBottom
+                            >
+                                Go to <Link to='/activities'>
+                                    <Button variant="contained">Activities</Button>    
+                                </Link>
+                            </Typography>
+                        </Item>
+                    </>
+                ) : (
+                    <Item>
+                        <Typography 
+                            variant="h6"
+                            component="div"
+                            gutterBottom
+                        >
+                            <>
+                                <Button 
+                                    onClick={() => openModal(<LoginForm />)} 
+                                    variant="contained"
+                                >
+                                    Login
+                                </Button>   
+                                <Button 
+                                    onClick={() => openModal(<RegisterForm />)} 
+                                    variant="contained"
+                                >
+                                    Register
+                                </Button> 
+                            </>
+                        </Typography>
+                    </Item>
+                )}
             </Grid>   
         </Grid>
     )
-}
+})
